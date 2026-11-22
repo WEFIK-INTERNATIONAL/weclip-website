@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Dark, high-contrast developer-product look: near-black page, hairline borders, white type, one violet accent. */
+:root {
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --raised: #1b1b1b;
+  --line: #272727;
+  --line-strong: #3a3a3a;
+  --text: #ffffff;
+  --muted: #b3b3b3;
+  --dim: #8a8a8a;
+  --accent: #6c35f5;
+  --accent-soft: #968dfa;
+  --accent-faint: #b3b1fa;
+  --ok: #45c98f;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-faint: var(--accent-faint);
+  --color-ok: var(--ok);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-inter-tight);
+  --font-mono: var(--font-mono);
+}
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(108, 53, 245, 0.45); }
+:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 3px; border-radius: 4px; }
+
+/* Display type: large and tight. */
+.display { font-family: var(--font-inter-tight), var(--font-inter), sans-serif; font-weight: 500; letter-spacing: -0.03em; line-height: 1; }
+
+/* Faint grid behind sections. */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* The violet glow under the hero. */
+.glow {
+  background: radial-gradient(60% 55% at 50% 100%, rgba(108, 53, 245, 0.55) 0%, rgba(108, 53, 245, 0.18) 38%, transparent 72%);
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 600ms cubic-bezier(.2,.7,.2,1) both; }
+@keyframes caption-pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.caption-pop { animation: caption-pop 1.6s ease-in-out infinite; display: inline-block; }
+@keyframes blink { 50% { opacity: 0.35; } }
+.live-dot { animation: blink 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, .caption-pop, .live-dot { animation: none; }
+}
