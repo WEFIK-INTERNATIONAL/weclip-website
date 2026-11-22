@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const WINDOWS = [
   "Open WeClip-Setup.exe from your Downloads folder.",
   "If you see “Windows protected your PC”, click More info, then Run anyway. This shows up for new apps that are not code-signed yet.",
-  "Choose where to install it and click Install. WeClip opens when it is done.",
+  "Choose where to install it and click Install. The installer is small, so it opens in a few seconds; it then downloads WeClip (about 150 MB), installs it and opens it. Stay online until it finishes.",
 ];
 
 const MAC = [

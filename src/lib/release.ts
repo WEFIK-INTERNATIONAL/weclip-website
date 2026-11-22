@@ -32,6 +32,9 @@ export function toRelease(r: GhRelease): Release {
     const t = targetOf(a.name);
     if (t && !assets[t]) assets[t] = { name: a.name, url: a.browser_download_url, size: a.size };
   }
+  // Windows uses a small web installer that downloads the app package (.nsis.7z) itself: show the whole download.
+  const pkg = r.assets.find((a) => a.name.toLowerCase().endsWith(".nsis.7z"));
+  if (assets.windows && pkg) assets.windows = { ...assets.windows, size: assets.windows.size + pkg.size };
   return { version: r.tag_name.replace(/^v/, ""), publishedAt: r.published_at, notes: (r.body ?? "").trim(), page: r.html_url, assets };
 }
 
