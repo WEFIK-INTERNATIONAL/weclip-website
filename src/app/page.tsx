@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, AudioLines, Captions, Cpu, Download, LayoutTemplate, Layers, Lock, Radio, ScanFace, Scissors, Sparkles, Wand2 } from "lucide-react";
-import { AppMock } from "@/components/AppMock";
+import { AppScreenshot } from "@/components/AppScreenshot";
 import { DownloadButton } from "@/components/DownloadButton";
 import { fetchLatestRelease } from "@/lib/release";
+import { SITE } from "@/lib/site";
 
 const STEPS = [
   { n: 1, title: "Bring a video", body: "Drop in a file, paste a YouTube, Twitch or Kick link, or point WeClip at a stream that is live right now.", lines: ["Saturday stream.mp4", "youtube.com/watch?v=…", "twitch.tv/yourchannel"] },
@@ -34,8 +35,20 @@ const FAQ = [
 
 export default async function Home() {
   const initial = await fetchLatestRelease(undefined, false);
+  // Structured data for search engines: the app (free, Windows / macOS, version, screenshot) and the FAQ.
+  const jsonLd = [
+    {
+      "@context": "https://schema.org", "@type": "SoftwareApplication", name: SITE.name, description: SITE.description, url: SITE.url,
+      applicationCategory: "MultimediaApplication", applicationSubCategory: "Video editor", operatingSystem: "Windows 10, Windows 11, macOS 11 or newer",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, downloadUrl: `${SITE.url}/download/`, screenshot: `${SITE.url}/app-editor.webp`,
+      ...(initial ? { softwareVersion: initial.version, datePublished: initial.publishedAt.slice(0, 10) } : {}),
+      featureList: FEATURES.map((f) => f.title),
+    },
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
+  ];
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="grid-bg pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_75%)]" aria-hidden="true" />
@@ -45,7 +58,7 @@ export default async function Home() {
             WeClip finds the best moments in streams, podcasts and gameplay, frames them for vertical video, adds captions and exports them for TikTok, YouTube Shorts and Reels. On your own computer.
           </p>
           <div className="rise mt-9 [animation-delay:160ms]"><DownloadButton initial={initial} /></div>
-          <div className="rise mt-16 [animation-delay:240ms]"><AppMock /></div>
+          <div className="rise mt-16 [animation-delay:240ms]"><AppScreenshot /></div>
         </div>
       </section>
 

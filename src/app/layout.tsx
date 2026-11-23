@@ -9,12 +9,17 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "sw
 const interTight = Inter_Tight({ variable: "--font-inter-tight", subsets: ["latin"], weight: ["500", "600"], display: "swap" });
 const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"], display: "swap" });
 
+const OG_IMAGE = { url: "/og-image.png", width: 1200, height: 630, alt: "The WeClip editor turning a 16:9 video into a 9:16 short with captions" };
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: "WeClip: turn long videos into Shorts", template: "%s · WeClip" },
+  title: { default: SITE.title, template: "%s · WeClip" },
   description: SITE.description,
-  openGraph: { title: "WeClip", description: SITE.description, type: "website", url: SITE.url },
-  twitter: { card: "summary_large_image", title: "WeClip", description: SITE.description },
+  applicationName: SITE.name,
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
+  openGraph: { title: SITE.title, description: SITE.description, type: "website", url: "/", siteName: SITE.name, locale: "en_US", images: [OG_IMAGE] },
+  twitter: { card: "summary_large_image", title: SITE.title, description: SITE.description, images: [OG_IMAGE.url] },
 };
 
 export const viewport: Viewport = { themeColor: "#0d0d0d", colorScheme: "dark" };

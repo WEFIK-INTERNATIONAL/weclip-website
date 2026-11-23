@@ -38,10 +38,14 @@ export function toRelease(r: GhRelease): Release {
   return { version: r.tag_name.replace(/^v/, ""), publishedAt: r.published_at, notes: (r.body ?? "").trim(), page: r.html_url, assets };
 }
 
+const BUILD_STAMP = Date.now().toString(36);
+
 /** Latest published release with at least one installer, or null (none yet, offline, or rate-limited). */
 export async function fetchLatestRelease(signal?: AbortSignal, fresh = true): Promise<Release | null> {
   try {
-    const res = await fetch(`https://api.github.com/repos/${SITE.releasesRepo}/releases?per_page=10`, {
+    // At build time Next.js keeps fetch results between builds; the build stamp makes every build ask GitHub again.
+    const stamp = fresh ? "" : `&build=${BUILD_STAMP}`;
+    const res = await fetch(`https://api.github.com/repos/${SITE.releasesRepo}/releases?per_page=10${stamp}`, {
       headers: { Accept: "application/vnd.github+json" },
       signal,
       // In the browser: always the newest. At build time (static export) the default cache keeps the page static.

@@ -3,8 +3,10 @@ import { DownloadCards } from "@/components/DownloadCards";
 import { fetchLatestRelease } from "@/lib/release";
 
 export const metadata: Metadata = {
-  title: "Download",
-  description: "Download WeClip for Windows, Mac with Apple Silicon or Intel Mac. Free, no account needed.",
+  title: "Download for Windows and Mac (free)",
+  description: "Download WeClip free for Windows 10/11 and macOS (Apple Silicon or Intel). The right installer for your computer is picked for you. No account needed.",
+  alternates: { canonical: "/download/" },
+  openGraph: { url: "/download/", title: "Download WeClip for Windows and Mac (free)" },
 };
 
 const WINDOWS = [
