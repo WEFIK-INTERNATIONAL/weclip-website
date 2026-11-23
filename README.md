@@ -20,7 +20,7 @@ pnpm dev
 | Variable | Default | What it is |
 | --- | --- | --- |
 | `NEXT_PUBLIC_RELEASES_REPO` | `Sandip123samanta/weclip-releases` | Public GitHub repo whose releases hold the installers |
-| `NEXT_PUBLIC_SITE_URL` | `https://weclip.vercel.app` | The site's own address (for link previews) |
+| `NEXT_PUBLIC_SITE_URL` | `https://weclip.wefik.in` | The site's own address (for link previews) |
 
 Installer names the site recognises (electron-builder defaults): `WeClip-Setup-<v>.exe`, `WeClip-<v>-arm64.dmg`, `WeClip-<v>-x64.dmg`.
 
