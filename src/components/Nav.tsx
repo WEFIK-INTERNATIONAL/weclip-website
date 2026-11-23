@@ -28,8 +28,8 @@ export function Nav() {
             {LINKS.map((l) => <li key={l.href}><Link className="transition-colors hover:text-white" href={l.href}>{l.label}</Link></li>)}
           </ul>
           <div className="flex items-center gap-2">
-            <Link href="/download/" className="hidden h-9 items-center rounded-md border border-line-strong px-3.5 text-[14px] text-white transition-colors hover:bg-white/5 sm:inline-flex">All downloads</Link>
-            <Link href="/download/" className="inline-flex h-9 items-center rounded-md bg-white px-3.5 text-[14px] font-medium text-black transition-colors hover:bg-white/85">Download</Link>
+            <Link href="/download/" className="press hidden h-9 items-center rounded-md border border-line-strong px-3.5 text-[14px] text-white hover:bg-white/5 sm:inline-flex">All downloads</Link>
+            <Link href="/download/" className="press inline-flex h-9 items-center rounded-md bg-white px-3.5 text-[14px] font-medium text-black hover:bg-white/85">Download</Link>
             <button type="button" className="ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md text-muted hover:bg-white/5 hover:text-white md:hidden"
               aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>
               {open ? <X size={18} /> : <Menu size={18} />}

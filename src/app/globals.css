@@ -67,7 +67,36 @@ body {
 @keyframes blink { 50% { opacity: 0.35; } }
 .live-dot { animation: blink 1.4s ease-in-out infinite; }
 
+/* Scroll reveal: elements with .reveal rise in once they enter the screen (RevealObserver sets data-shown).
+   --i staggers siblings. */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms cubic-bezier(.2,.7,.2,1), transform 700ms cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--i, 0) * 70ms); }
+.reveal[data-shown] { opacity: 1; transform: none; }
+
+/* Buttons that press in. */
+.press { transition: transform 150ms ease, background-color 150ms ease, box-shadow 200ms ease; }
+.press:hover { box-shadow: 0 0 0 4px rgba(108, 53, 245, 0.22); }
+.press:active { transform: scale(0.97); }
+.nudge { transition: transform 200ms ease; }
+.group:hover .nudge { transform: translateX(3px); }
+
+/* Cards with a violet light that follows the pointer (SpotlightGroup sets --mx / --my). */
+.spot { position: relative; isolation: isolate; }
+.spot::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 300ms ease;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(108, 53, 245, 0.16), transparent 65%); }
+.spot:hover::before { opacity: 1; }
+.spot .spot-icon { transition: transform 300ms cubic-bezier(.2,.7,.2,1), color 300ms ease; }
+.spot:hover .spot-icon { transform: translateY(-3px) rotate(-8deg); color: var(--accent-faint); }
+
+/* FAQ answers slide in when opened. */
+details[open] .faq-answer { animation: rise 400ms cubic-bezier(.2,.7,.2,1) both; }
+
+/* Bars that grow when their section is revealed. */
+.bars > i { transform: scaleY(0.12); transform-origin: bottom; transition: transform 700ms cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i, 0) * 28ms); }
+[data-shown] .bars > i, .bars[data-shown] > i { transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .rise, .caption-pop, .live-dot { animation: none; }
+  .rise, .caption-pop, .live-dot, details[open] .faq-answer { animation: none; }
+  .reveal, .bars > i { opacity: 1; transform: none; transition: none; }
+  .press:active, .group:hover .nudge, .spot:hover .spot-icon { transform: none; }
 }

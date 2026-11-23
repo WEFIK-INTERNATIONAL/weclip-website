@@ -28,7 +28,7 @@ export function DownloadCards({ initial }: { initial: Release | null }) {
               <div className="mt-auto space-y-2">
                 {a ? (
                   <>
-                    <a href={a.url} className={`flex h-11 items-center justify-center gap-2 rounded-md text-[15px] font-medium ${mine ? "bg-white text-black hover:bg-white/85" : "border border-line-strong text-white hover:bg-white/5"}`}>
+                    <a href={a.url} className={`press flex h-11 items-center justify-center gap-2 rounded-md text-[15px] font-medium ${mine ? "bg-white text-black hover:bg-white/85" : "border border-line-strong text-white hover:bg-white/5"}`}>
                       <Download size={16} />Download
                     </a>
                     <p className="truncate text-center font-mono text-[12px] text-dim" title={a.name}>{a.name} · {formatSize(a.size)}</p>

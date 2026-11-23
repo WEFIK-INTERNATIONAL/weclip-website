@@ -17,7 +17,7 @@ export function DownloadButton({ initial }: { initial: Release | null }) {
     if (!p) return <span className="inline-flex h-12 w-64 animate-pulse rounded-md bg-white/10" aria-hidden="true" />;
     if (p.os === "other") {
       return (
-        <Link href="/download/" className="inline-flex h-12 items-center gap-2 rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85">
+        <Link href="/download/" className="inline-flex h-12 items-center gap-2 press rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85">
           <Download size={17} />{p.mobile ? "Get WeClip for your computer" : "Download WeClip"}
         </Link>
       );
@@ -25,13 +25,13 @@ export function DownloadButton({ initial }: { initial: Release | null }) {
     const label = `Download for ${TARGETS[target!].short}`;
     if (asset) {
       return (
-        <a href={asset.url} className="inline-flex h-12 items-center gap-2.5 rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85">
+        <a href={asset.url} className="inline-flex h-12 items-center gap-2.5 press rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85">
           <OsIcon target={target!} />{label}<span className="text-[13px] font-normal text-black/55">{formatSize(asset.size)}</span>
         </a>
       );
     }
     return (
-      <Link href="/download/" className="inline-flex h-12 items-center gap-2.5 rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85" aria-disabled={loading}>
+      <Link href="/download/" className="inline-flex h-12 items-center gap-2.5 press rounded-md bg-white px-5 text-[15px] font-medium text-black hover:bg-white/85" aria-disabled={loading}>
         <OsIcon target={target!} />{loading ? "Finding the latest version…" : label}
       </Link>
     );

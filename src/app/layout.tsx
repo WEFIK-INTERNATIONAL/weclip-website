@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { RevealObserver } from "@/components/motion/RevealObserver";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -29,6 +31,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${inter.variable} ${interTight.variable} ${mono.variable}`}>
       <body className="min-h-dvh antialiased">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-3 focus:py-2 focus:text-black">Skip to content</a>
+        <noscript><style>{".reveal{opacity:1;transform:none}.bars>i{transform:none}"}</style></noscript>
+        <ScrollProgress />
+        <RevealObserver />
         <Nav />
         <main id="main">{children}</main>
         <Footer />

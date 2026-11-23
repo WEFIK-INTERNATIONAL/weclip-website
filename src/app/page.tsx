@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, AudioLines, Captions, Cpu, Download, LayoutTemplate, Layers, Lock, Radio, ScanFace, Scissors, Sparkles, Wand2 } from "lucide-react";
 import { AppScreenshot } from "@/components/AppScreenshot";
+import { ScrollStory } from "@/components/ScrollStory";
+import { ScrollTilt } from "@/components/motion/ScrollTilt";
+import { SpotlightGroup } from "@/components/motion/SpotlightGroup";
 import { DownloadButton } from "@/components/DownloadButton";
 import { fetchLatestRelease } from "@/lib/release";
 import { SITE } from "@/lib/site";
-
-const STEPS = [
-  { n: 1, title: "Bring a video", body: "Drop in a file, paste a YouTube, Twitch or Kick link, or point WeClip at a stream that is live right now.", lines: ["Saturday stream.mp4", "youtube.com/watch?v=…", "twitch.tv/yourchannel"] },
-  { n: 2, title: "Let the AI find moments", body: "WeClip listens to every word, watches where the chat goes wild, and picks the moments worth a short.", lines: ["★ 9.4  The final round comeback", "★ 8.8  Nobody saw that coming", "★ 8.1  Funniest fail of the stream"] },
-  { n: 3, title: "Export for every app", body: "Captions, layout and titles are done. Export one or fifty at once for TikTok, Shorts and Reels.", lines: ["✓ comeback.mp4      1080×1920", "✓ no-way.mp4        1080×1920", "✓ fail.mp4          1080×1920"] },
-];
 
 const FEATURES = [
   { icon: Sparkles, title: "AI Clips", body: "Finds the best moments in hours of footage, scores them and opens each one ready to edit." },
@@ -58,65 +55,52 @@ export default async function Home() {
             WeClip finds the best moments in streams, podcasts and gameplay, frames them for vertical video, adds captions and exports them for TikTok, YouTube Shorts and Reels. On your own computer.
           </p>
           <div className="rise mt-9 [animation-delay:160ms]"><DownloadButton initial={initial} /></div>
-          <div className="rise mt-16 [animation-delay:240ms]"><AppScreenshot /></div>
+          <div className="rise mt-16 [animation-delay:240ms]"><ScrollTilt><AppScreenshot /></ScrollTilt></div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how" className="scroll-mt-20 border-t border-line">
-        <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-          <h2 className="display text-[40px] sm:text-[56px]">Click, click, done.</h2>
-          <p className="mt-4 max-w-xl text-[17px] text-muted">From a three-hour stream to a week of shorts in a coffee break.</p>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-            {STEPS.map((s) => (
-              <div key={s.n} className="flex flex-col gap-4 bg-bg p-6">
-                <span className="flex h-7 w-7 items-center justify-center rounded-[4px] bg-accent text-[13px] font-semibold">{s.n}</span>
-                <h3 className="display text-[26px]">{s.title}</h3>
-                <p className="text-[15px] leading-relaxed text-muted">{s.body}</p>
-                <div className="mt-auto rounded-md border border-line bg-surface p-3 font-mono text-[12px] leading-6 text-dim">
-                  {s.lines.map((l) => <p key={l} className="truncate">{l}</p>)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* How it works: scroll-driven drawing */}
+      <ScrollStory />
 
       {/* Features */}
       <section id="features" className="scroll-mt-20 border-t border-line">
         <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-          <h2 className="display max-w-3xl text-[40px] sm:text-[56px]">Everything a short needs, in one app</h2>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="group bg-bg p-6 transition-colors hover:bg-surface">
-                <f.icon size={20} className="text-accent-soft" aria-hidden="true" />
+          <h2 className="reveal display max-w-3xl text-[40px] sm:text-[56px]">Everything a short needs, in one app</h2>
+          <SpotlightGroup className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((f, i) => (
+              <div key={f.title} className="reveal spot bg-bg p-6" style={{ "--i": i % 3 } as React.CSSProperties}>
+                <f.icon size={20} className="spot-icon text-accent-soft" aria-hidden="true" />
                 <h3 className="mt-4 text-[17px] font-medium">{f.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-muted">{f.body}</p>
               </div>
             ))}
-          </div>
+          </SpotlightGroup>
         </div>
       </section>
 
       {/* Live Clipping */}
       <section id="live" className="scroll-mt-20 border-t border-line">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-24 sm:px-6 lg:grid-cols-2">
-          <div>
+          <div className="reveal">
             <p className="inline-flex items-center gap-2 text-[13px] font-medium text-accent-soft"><Radio size={14} />Live Clipping</p>
             <h2 className="display mt-4 text-[40px] sm:text-[52px]">Clip the stream while it is still live</h2>
             <p className="mt-5 text-[17px] leading-relaxed text-muted">
               Paste a YouTube, Twitch or Kick link. WeClip records in the best quality the site offers, transcribes as it goes, watches the chat for spikes and turns the best moments into editable shorts, every couple of minutes. Not live yet? It waits and starts by itself.
             </p>
-            <Link href="/download/" className="mt-8 inline-flex items-center gap-1.5 text-[15px] text-accent-soft hover:text-accent-faint">Get WeClip<ArrowRight size={15} /></Link>
+            <Link href="/download/" className="group mt-8 inline-flex items-center gap-1.5 text-[15px] text-accent-soft hover:text-accent-faint">Get WeClip<ArrowRight size={15} className="nudge" /></Link>
           </div>
-          <div className="rounded-xl border border-line bg-surface p-5 font-mono text-[12.5px] leading-7" aria-hidden="true">
+          <div className="reveal rounded-xl border border-line bg-surface p-5 font-mono text-[12.5px] leading-7" style={{ "--i": 2 } as React.CSSProperties} aria-hidden="true">
             <div className="mb-3 flex items-center gap-2 text-[12px]"><span className="live-dot h-2 w-2 rounded-full bg-[#ff6b7f]" /><span className="text-white">LIVE</span><span className="text-dim">· 1920×1080 · 60 fps · not re-encoded</span></div>
-            <p className="text-dim">01:02:10  AI is looking at 0:58–1:02</p>
-            <p className="text-dim">01:02:31  <span className="text-accent-soft">★ chat spike: 64 messages in 10 s (5.1× normal)</span></p>
-            <p className="text-white">01:02:44  New clip: “The clutch nobody expected” (9.1)</p>
-            <p className="text-dim">01:04:12  AI is looking at 1:00–1:04</p>
-            <p className="text-white">01:04:39  New clip: “Chat could not believe it” (8.6)</p>
-            <div className="mt-4 flex h-12 items-end gap-1">{[3, 3, 4, 3, 3, 5, 3, 12, 18, 7, 3, 3, 4, 3, 14, 6, 3, 3, 4, 3, 3, 3, 5, 3].map((h, i) => <i key={i} className={`flex-1 rounded-[2px] ${h > 10 ? "bg-accent-soft" : "bg-[#2e2e2e]"}`} style={{ height: `${h * 5}%` }} />)}</div>
+            {[
+              { t: "01:02:10", text: "AI is looking at 0:58–1:02", tone: "text-dim" },
+              { t: "01:02:31", text: "★ chat spike: 64 messages in 10 s (5.1× normal)", tone: "text-accent-soft" },
+              { t: "01:02:44", text: "New clip: “The clutch nobody expected” (9.1)", tone: "text-white" },
+              { t: "01:04:12", text: "AI is looking at 1:00–1:04", tone: "text-dim" },
+              { t: "01:04:39", text: "New clip: “Chat could not believe it” (8.6)", tone: "text-white" },
+            ].map((l, i) => (
+              <p key={l.t} className={`reveal ${l.tone}`} style={{ "--i": 4 + i * 3 } as React.CSSProperties}><span className="text-dim">{l.t}</span>  {l.text}</p>
+            ))}
+            <div className="bars mt-4 flex h-12 items-end gap-1">{[3, 3, 4, 3, 3, 5, 3, 12, 18, 7, 3, 3, 4, 3, 14, 6, 3, 3, 4, 3, 3, 3, 5, 3].map((h, i) => <i key={i} className={`flex-1 rounded-[2px] ${h > 10 ? "bg-accent-soft" : "bg-[#2e2e2e]"}`} style={{ height: `${h * 5}%`, "--i": i } as React.CSSProperties} />)}</div>
           </div>
         </div>
       </section>
@@ -124,34 +108,34 @@ export default async function Home() {
       {/* Private */}
       <section id="private" className="scroll-mt-20 border-t border-line">
         <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-          <h2 className="display max-w-3xl text-[40px] sm:text-[56px]">Runs on your computer. Stays on your computer.</h2>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
+          <h2 className="reveal display max-w-3xl text-[40px] sm:text-[56px]">Runs on your computer. Stays on your computer.</h2>
+          <SpotlightGroup className="mt-14 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
             {[
               { icon: Lock, title: "No account, no upload", body: "Your footage never leaves your machine unless you pick a cloud service yourself." },
               { icon: Cpu, title: "Local AI", body: "Whisper transcribes and Ollama picks moments offline. Prefer the cloud? Bring your own key." },
               { icon: Scissors, title: "Uses your graphics card", body: "Fast exports with NVIDIA, AMD, Intel and Apple hardware encoders, and a software fallback that works everywhere." },
-            ].map((c) => (
-              <div key={c.title} className="bg-bg p-6">
-                <c.icon size={20} className="text-accent-soft" aria-hidden="true" />
+            ].map((c, i) => (
+              <div key={c.title} className="reveal spot bg-bg p-6" style={{ "--i": i } as React.CSSProperties}>
+                <c.icon size={20} className="spot-icon text-accent-soft" aria-hidden="true" />
                 <h3 className="mt-4 text-[17px] font-medium">{c.title}</h3>
                 <p className="mt-2 text-[14px] leading-relaxed text-muted">{c.body}</p>
               </div>
             ))}
-          </div>
+          </SpotlightGroup>
         </div>
       </section>
 
       {/* FAQ */}
       <section id="faq" className="scroll-mt-20 border-t border-line">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[1fr_1.6fr]">
-          <h2 className="display text-[40px] sm:text-[56px]">Questions</h2>
+          <h2 className="reveal display text-[40px] sm:text-[56px]">Questions</h2>
           <div className="divide-y divide-line border-y border-line">
-            {FAQ.map((f) => (
-              <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[16px] font-medium">
-                  {f.q}<span className="text-dim transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            {FAQ.map((f, i) => (
+              <details key={f.q} className="reveal group py-5" style={{ "--i": i } as React.CSSProperties}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[16px] font-medium transition-colors hover:text-accent-faint">
+                  {f.q}<span className="text-[20px] leading-none text-dim transition-transform duration-300 group-open:rotate-45 group-open:text-accent-soft" aria-hidden="true">+</span>
                 </summary>
-                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">{f.a}</p>
+                <p className="faq-answer mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">{f.a}</p>
               </details>
             ))}
           </div>
@@ -162,9 +146,9 @@ export default async function Home() {
       <section className="relative overflow-hidden border-t border-line">
         <div className="glow pointer-events-none absolute inset-x-0 bottom-0 top-1/3 -z-0 opacity-70" aria-hidden="true" />
         <div className="relative mx-auto max-w-7xl px-4 py-28 sm:px-6">
-          <h2 className="display max-w-3xl text-[44px] sm:text-[64px]">Start clipping today</h2>
-          <p className="mt-5 max-w-xl text-[17px] text-muted">Free for Windows and macOS. Your first short takes a couple of minutes.</p>
-          <div className="mt-9"><DownloadButton initial={initial} /></div>
+          <h2 className="reveal display max-w-3xl text-[44px] sm:text-[64px]">Start clipping today</h2>
+          <p className="reveal mt-5 max-w-xl text-[17px] text-muted" style={{ "--i": 1 } as React.CSSProperties}>Free for Windows and macOS. Your first short takes a couple of minutes.</p>
+          <div className="reveal mt-9" style={{ "--i": 2 } as React.CSSProperties}><DownloadButton initial={initial} /></div>
         </div>
       </section>
     </>
